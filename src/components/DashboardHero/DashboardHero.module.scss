@@ -250,6 +250,10 @@
   border-color: $accent-red !important;
   color: #ffffff !important;
   box-shadow: 0 0 12px $accent-red-glow;
+
+  svg path {
+    stroke: var(--text-primary);
+  }
 }
 
 // Curved tracks for nav icons
