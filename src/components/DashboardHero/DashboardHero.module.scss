@@ -338,7 +338,7 @@
   &:hover {
     color: $text-primary;
     border-color: rgba($text-primary, 0.25);
-    transform: scale(1.02);
+    // transform: scale(1.10);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
   }
 }

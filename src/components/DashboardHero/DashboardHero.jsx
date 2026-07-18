@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Gauge,
   Home,
@@ -118,27 +118,42 @@ const lapTelemetryData = {
 };
 
 export const DashboardHero = ({ activeLap = 3, onLapSelect }) => {
-  const { theme } = useTheme();
-  const [activeNav, setActiveNav] = useState('dashboard');
+  const [activeMenu, setActiveMenu] = useState('dashboard');
   const [activeAction, setActiveAction] = useState('check');
-  const [activeRightMenu, setActiveRightMenu] = useState('');
   const [hoveredItem, setHoveredItem] = useState(null);
-  const [hoveredRightItem, setHoveredRightItem] = useState(null);
+  const hoverTimeoutRef = useRef(null);
 
-  const isTooltipVisible = (name) => {
-    return hoveredItem ? hoveredItem === name : activeNav === name;
+  const handleMouseEnter = (name) => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setHoveredItem(name);
   };
 
-  const isRightTooltipVisible = (name) => {
-    return hoveredRightItem ? hoveredRightItem === name : activeRightMenu === name;
+  const handleMouseLeave = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHoveredItem(null);
+    }, 200);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const isTooltipVisible = (name) => {
+    return hoveredItem ? hoveredItem === name : activeMenu === name;
   };
 
   const isButtonActiveStyle = (name) => {
-    return hoveredItem ? hoveredItem === name : activeNav === name;
-  };
-
-  const isRightButtonActiveStyle = (name) => {
-    return hoveredRightItem ? hoveredRightItem === name : activeRightMenu === name;
+    return hoveredItem ? hoveredItem === name : activeMenu === name;
   };
 
   const currentStats = lapTelemetryData[activeLap];
@@ -234,11 +249,11 @@ export const DashboardHero = ({ activeLap = 3, onLapSelect }) => {
               <div
                 className={styles.menuButtonWrapper}
                 style={{ top: '8%', left: '13px' }}
-                onMouseEnter={() => setHoveredItem('dashboard')}
-                onMouseLeave={() => setHoveredItem(null)}
+                onMouseEnter={() => handleMouseEnter('dashboard')}
+                onMouseLeave={handleMouseLeave}
               >
                 <button
-                  onClick={() => setActiveNav('dashboard')}
+                  onClick={() => setActiveMenu('dashboard')}
                   className={clsx(
                     styles.menuButton,
                     isButtonActiveStyle('dashboard') && styles.menuButtonActive
@@ -255,11 +270,11 @@ export const DashboardHero = ({ activeLap = 3, onLapSelect }) => {
               <div
                 className={styles.menuButtonWrapper}
                 style={{ top: '48%', left: '0px' }}
-                onMouseEnter={() => setHoveredItem('home')}
-                onMouseLeave={() => setHoveredItem(null)}
+                onMouseEnter={() => handleMouseEnter('home')}
+                onMouseLeave={handleMouseLeave}
               >
                 <button
-                  onClick={() => setActiveNav('home')}
+                  onClick={() => setActiveMenu('home')}
                   className={clsx(
                     styles.menuButton,
                     isButtonActiveStyle('home') && styles.menuButtonActive
@@ -276,11 +291,11 @@ export const DashboardHero = ({ activeLap = 3, onLapSelect }) => {
               <div
                 className={styles.menuButtonWrapper}
                 style={{ top: '88%', left: '13px' }}
-                onMouseEnter={() => setHoveredItem('settings')}
-                onMouseLeave={() => setHoveredItem(null)}
+                onMouseEnter={() => handleMouseEnter('settings')}
+                onMouseLeave={handleMouseLeave}
               >
                 <button
-                  onClick={() => setActiveNav('settings')}
+                  onClick={() => setActiveMenu('settings')}
                   className={clsx(
                     styles.menuButton,
                     isButtonActiveStyle('settings') && styles.menuButtonActive
@@ -387,17 +402,17 @@ export const DashboardHero = ({ activeLap = 3, onLapSelect }) => {
               <div
                 className={styles.menuButtonWrapperRight}
                 style={{ top: '10%', right: '90px' }}
-                onMouseEnter={() => setHoveredRightItem('comments')}
-                onMouseLeave={() => setHoveredRightItem(null)}
+                onMouseEnter={() => handleMouseEnter('comments')}
+                onMouseLeave={handleMouseLeave}
               >
-                <div className={clsx(styles.tooltipRight, isRightTooltipVisible('comments') && styles.tooltipActive)}>
+                <div className={clsx(styles.tooltipRight, isTooltipVisible('comments') && styles.tooltipActive)}>
                   Comments
                 </div>
                 <button
-                  onClick={() => setActiveRightMenu(activeRightMenu === 'comments' ? '' : 'comments')}
+                  onClick={() => setActiveMenu(activeMenu === 'comments' ? '' : 'comments')}
                   className={clsx(
                     styles.menuButton,
-                    isRightButtonActiveStyle('comments') && styles.menuButtonActive
+                    isButtonActiveStyle('comments') && styles.menuButtonActive
                   )}
                   aria-label="Comments"
                 >
@@ -408,17 +423,17 @@ export const DashboardHero = ({ activeLap = 3, onLapSelect }) => {
               <div
                 className={styles.menuButtonWrapperRight}
                 style={{ top: '40%', right: '75px' }}
-                onMouseEnter={() => setHoveredRightItem('manual')}
-                onMouseLeave={() => setHoveredRightItem(null)}
+                onMouseEnter={() => handleMouseEnter('manual')}
+                onMouseLeave={handleMouseLeave}
               >
-                <div className={clsx(styles.tooltipRight, isRightTooltipVisible('manual') && styles.tooltipActive)}>
+                <div className={clsx(styles.tooltipRight, isTooltipVisible('manual') && styles.tooltipActive)}>
                   Manual
                 </div>
                 <button
-                  onClick={() => setActiveRightMenu(activeRightMenu === 'manual' ? '' : 'manual')}
+                  onClick={() => setActiveMenu(activeMenu === 'manual' ? '' : 'manual')}
                   className={clsx(
                     styles.menuButton,
-                    isRightButtonActiveStyle('manual') && styles.menuButtonActive
+                    isButtonActiveStyle('manual') && styles.menuButtonActive
                   )}
                   aria-label="Manual"
                 >
@@ -429,17 +444,17 @@ export const DashboardHero = ({ activeLap = 3, onLapSelect }) => {
               <div
                 className={styles.menuButtonWrapperRight}
                 style={{ top: '71%', right: '90px' }}
-                onMouseEnter={() => setHoveredRightItem('key')}
-                onMouseLeave={() => setHoveredRightItem(null)}
+                onMouseEnter={() => handleMouseEnter('key')}
+                onMouseLeave={handleMouseLeave}
               >
-                <div className={clsx(styles.tooltipRight, isRightTooltipVisible('key') && styles.tooltipActive)}>
+                <div className={clsx(styles.tooltipRight, isTooltipVisible('key') && styles.tooltipActive)}>
                   Key
                 </div>
                 <button
-                  onClick={() => setActiveRightMenu(activeRightMenu === 'key' ? '' : 'key')}
+                  onClick={() => setActiveMenu(activeMenu === 'key' ? '' : 'key')}
                   className={clsx(
                     styles.menuButton,
-                    isRightButtonActiveStyle('key') && styles.menuButtonActive
+                    isButtonActiveStyle('key') && styles.menuButtonActive
                   )}
                   aria-label="Remote Key"
                 >
