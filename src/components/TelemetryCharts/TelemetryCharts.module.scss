@@ -1,0 +1,240 @@
+@use '../../styles/variables' as *;
+
+.chartsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 2rem 2rem 0;
+  z-index: 2;
+  position: relative;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  gap: 2.5rem;
+
+  @media (max-width: $breakpoint-desktop) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+// Chart Cards
+.chartCard {
+  background-color: transparent;
+  border: 1px solid $border-color;
+  border-radius: 16px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    border-color: rgba($text-primary, 0.15);
+  }
+}
+
+// Card Headers
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.cardTitle {
+  font-family: $font-display;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: $text-primary;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color 0.3s ease;
+}
+
+.chartLegend {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: $font-body;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legendDotRed {
+  background-color: $accent-red;
+}
+
+.legendDotGray {
+  background-color: $text-muted;
+}
+
+// SVG Spline chart styling
+.chartVisualWrapper {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  margin-top: 0.5rem;
+}
+
+.splineSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.linePath {
+  transition: d 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.areaPath {
+  transition: d 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+// Card Footers
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid $border-color;
+  padding-top: 1.25rem;
+  margin-top: 1.5rem;
+  transition: border-top-color 0.3s ease;
+}
+
+.footerStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.15rem;
+}
+
+.statLabel {
+  font-family: $font-body;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: color 0.3s ease;
+}
+
+.statValue {
+  font-family: $font-display;
+  font-weight: 800;
+  font-size: 1.55rem;
+  color: $text-primary;
+  transition: color 0.3s ease;
+}
+
+.liveTag {
+  font-family: $font-display;
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: $accent-red;
+  border: 1px solid $border-color;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background-color: $nav-glow;
+  transition: all 0.3s ease;
+}
+
+// G-Force Section
+.gForceBody {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 2rem;
+  padding: 0.5rem 0;
+
+  @media (max-width: $breakpoint-mobile) {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+.gForcePlotWrapper {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gForceSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+
+  text {
+    font-family: $font-body;
+    transition: fill 0.3s ease;
+  }
+}
+
+.activeGPoint {
+  animation: gPointPulse 1.8s infinite ease-in-out;
+  transform-origin: center;
+}
+
+.gForceStats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  width: 140px;
+
+  @media (max-width: $breakpoint-mobile) {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+  }
+}
+
+.gForceStatItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+
+  @media (max-width: $breakpoint-mobile) {
+    align-items: center;
+  }
+}
+
+@keyframes gPointPulse {
+  0% {
+    r: 6px;
+    filter: drop-shadow(0 0 1px $accent-red);
+  }
+  50% {
+    r: 9px;
+    filter: drop-shadow(0 0 8px $accent-red);
+  }
+  100% {
+    r: 6px;
+    filter: drop-shadow(0 0 1px $accent-red);
+  }
+}

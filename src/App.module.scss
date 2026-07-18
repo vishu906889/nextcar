@@ -1,0 +1,20 @@
+@use './styles/variables' as *;
+
+.appContainer {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  // background-color: $bg-primary;
+  // background-image: linear-gradient(rgba(8, 8, 8, 0.88), rgba(8, 8, 8, 0.88)), url("./assets/backgroundimg.png");
+  // background-repeat: no-repeat;
+  // background-position: center;
+  // background-size: cover;
+  // background-attachment: fixed;
+  // transition: background-color 0.3s ease, background-image 0.3s ease;
+  position: relative;
+
+  // [data-theme="light"] & {
+  //   background-image: linear-gradient(rgba(245, 246, 248, 0.94), rgba(245, 246, 248, 0.94)), url("./assets/backgroundimg.png");
+  // }
+}

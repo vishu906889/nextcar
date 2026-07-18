@@ -1,0 +1,30 @@
+// Fonts
+$font-display: 'Outfit', sans-serif;
+$font-body: 'Inter', sans-serif;
+
+// Responsive breakpoints
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+$breakpoint-widescreen: 1200px;
+
+// Theme Colors (Mapped to CSS variables for dynamic switching)
+$bg-primary: var(--bg-primary);
+$bg-glow: var(--bg-glow);
+$text-primary: var(--text-primary);
+$text-secondary: var(--text-secondary);
+$text-muted: var(--text-muted);
+
+$accent-red: var(--accent-red);
+$accent-red-glow: var(--accent-red-glow);
+$border-color: var(--border-color);
+$nav-glow: var(--nav-glow);
+
+// Component specific
+$theme-switch-bg: var(--theme-switch-bg);
+$theme-switch-thumb: var(--theme-switch-thumb);
+$theme-switch-text: var(--theme-switch-text);
+$theme-switch-active: var(--theme-switch-active);
+
+$btn-bg-hover: var(--btn-bg-hover);
+$btn-border: var(--btn-border);

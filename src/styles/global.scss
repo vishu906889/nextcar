@@ -1,0 +1,91 @@
+@use './variables' as *;
+
+// CSS Theme Variables
+:root {
+  --bg-primary: #080808;
+  --bg-glow: radial-gradient(circle at center, rgba(227, 27, 35, 0.08) 0%, rgba(8, 8, 8, 0) 70%);
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-muted: #8f8f8f;
+
+  --accent-red: #BF0405;
+  --accent-red-glow: rgba(227, 27, 35, 0.4);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --nav-glow: rgba(255, 255, 255, 0.02);
+
+  --theme-switch-bg: #151515;
+  --theme-switch-thumb: #E31B23;
+  --theme-switch-text: #8f8f8f;
+  --theme-switch-active: #ffffff;
+
+  --btn-bg-hover: rgba(255, 255, 255, 0.05);
+  --btn-border: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f5f6f8;
+  --bg-glow: radial-gradient(circle at center, rgba(227, 27, 35, 0.05) 0%, rgba(245, 246, 248, 0) 70%);
+  --text-primary: #11161d;
+  --text-secondary: #495766;
+  --text-muted: #7c8ba1;
+
+  --accent-red: #D3121A; // Slightly darker red for accessibility on light background
+  --accent-red-glow: rgba(211, 18, 26, 0.25);
+  --border-color: rgba(17, 22, 29, 0.08);
+  --nav-glow: rgba(17, 22, 29, 0.01);
+
+  --theme-switch-bg: #e2e8f0;
+  --theme-switch-thumb: #ffffff;
+  --theme-switch-text: #7c8ba1;
+  --theme-switch-active: #11161d;
+
+  --btn-bg-hover: rgba(17, 22, 29, 0.04);
+  --btn-border: rgba(17, 22, 29, 0.12);
+}
+
+// Resets
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  // background-color: $bg-primary;
+
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: $font-body;
+  background-color: $bg-primary;
+  background-image: url('../../src/assets/backgroundimg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  color: $text-primary;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
+
+  [data-theme="light"] & {
+    background-image: url('../../src/assets/backgroundimg_wihite.png');
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-display;
+  font-weight: 700;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}

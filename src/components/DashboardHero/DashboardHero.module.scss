@@ -1,0 +1,914 @@
+@use '../../styles/variables' as *;
+
+.heroContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+  // position: relative;
+  overflow: hidden;
+  padding-bottom: 2.5rem;
+}
+
+// Light Beam Effect (glowing cone from header down to center car)
+.lightBeam {
+  position: absolute;
+  top: -103px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 700px;
+  background-image: url("../../assets/rectangellight.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top center;
+  pointer-events: none;
+  z-index: 1;
+  transition: background 0.3s ease;
+
+  [data-theme="light"] & {
+    background: linear-gradient(180deg, rgba(17, 22, 29, 0.03) 0%, rgba(17, 22, 29, 0) 80%);
+  }
+}
+
+// Main Layout (Nav columns + Telemetry Center)
+.mainLayout {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1920px;
+  flex-grow: 1;
+  align-items: center;
+  padding: 0 100px;
+  z-index: 2;
+
+  @media (max-width: $breakpoint-desktop) {
+    flex-direction: column;
+    gap: 3rem;
+    padding: 2rem 1.5rem;
+  }
+}
+
+// Unified Top Row Section (Back Button, Title Block, Action Buttons Row)
+.topSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1920px;
+  padding: 1rem 2rem 0rem;
+  z-index: 2;
+  position: relative;
+
+  @media (max-width: $breakpoint-desktop) {
+    padding: 1.5rem 1.5rem 0.5rem;
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+}
+
+.topSectionLeft {
+  flex: 0 0 110px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  @media (max-width: $breakpoint-tablet) {
+    flex: 1 1 auto;
+    order: 1;
+  }
+}
+
+.topSectionRight {
+  flex: 0 0 110px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  @media (max-width: $breakpoint-tablet) {
+    flex: 1 1 auto;
+    order: 2;
+    justify-content: flex-end;
+  }
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1 1 auto;
+
+  @media (max-width: $breakpoint-tablet) {
+    // order: 3;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+.mainTitle {
+  font-family: 'Shrikhand', cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2.65rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: $text-primary;
+  transition: color 0.3s ease, font-size 0.3s ease;
+
+  @media (max-width: $breakpoint-desktop) {
+    font-size: 2.2rem;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 1.6rem;
+  }
+}
+
+.titleHighlight {
+  color: $accent-red;
+  transition: color 0.3s ease;
+}
+
+.subtitle {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: $text-muted;
+  letter-spacing: 0px;
+  margin-top: 0.35rem;
+  transition: color 0.3s ease, font-size 0.3s ease;
+
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+  }
+}
+
+.accentLine {
+  width: 28px;
+  height: 4px;
+  background-color: $accent-red;
+  margin-top: 0.55rem;
+  border-radius: 1px;
+  transition: background-color 0.3s ease;
+}
+
+// Sidebar Styles
+.leftSidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  flex: 0 0 110px;
+  width: 110px;
+
+  @media (max-width: $breakpoint-desktop) {
+    display: none; // Sidebar layout changes entirely on mobile/tablet
+  }
+}
+
+.rightSidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  flex: 0 0 110px;
+  width: 110px;
+
+  @media (max-width: $breakpoint-desktop) {
+    display: none;
+  }
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: rgba(60, 60, 60, 0.5); // #3C3C3C80 in dark theme
+  border: 1px solid $border-color;
+  color: $text-primary;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+
+  [data-theme="light"] & {
+    background-color: rgba(220, 225, 235, 0.5); // Light theme equivalent translucent background
+  }
+
+  &:hover {
+    color: $accent-red;
+    border-color: rgba($accent-red, 0.5);
+    box-shadow: 0 0 10px rgba($accent-red, 0.15);
+    transform: translateX(-2px);
+  }
+}
+
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(25, 25, 25, 0.75) 0%, rgba(10, 10, 10, 0.75) 100%);
+  backdrop-filter: blur(10px);
+  color: $text-muted;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 -5px 8px rgba(246, 247, 255, 0.18);
+
+  [data-theme="light"] & {
+    border-color: rgba(17, 22, 29, 0.08);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(240, 240, 240, 0.85) 100%);
+    box-shadow: inset 0 -5px 8px rgba(17, 22, 29, 0.05);
+    color: #11161d;
+  }
+
+  &:hover {
+    color: $text-primary;
+    border-color: $text-primary;
+  }
+}
+
+.actionActiveRed {
+  background-color: $accent-red !important;
+  border-color: $accent-red !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 12px $accent-red-glow;
+}
+
+// Curved tracks for nav icons
+.curvedMenuWrapper {
+  position: relative;
+  width: 100%;
+  height: 257px;
+}
+
+.curvedMenuWrapperRight {
+  position: relative;
+  width: 100%;
+  height: 257px;
+}
+
+.menuCurveSvg {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  opacity: 0.6;
+
+  path {
+    stroke: var(--text-primary);
+  }
+}
+
+.iconContainer {
+  position: absolute;
+  top: 14px;
+  left: 75px;
+  width: 100%;
+  height: 75%;
+  pointer-events: none;
+}
+
+.iconContainerRight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.menuButtonWrapper {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+
+
+.menuButtonWrapperRight {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.menuButton {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 61px;
+  height: 61px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(25, 25, 25, 0.75) 0%, rgba(10, 10, 10, 0.75) 100%);
+  backdrop-filter: blur(10px);
+  color: $text-muted;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0px 4px 8px 0px #F6F7FF38 inset;
+
+  [data-theme="light"] & {
+    border-color: rgba(17, 22, 29, 0.08);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(240, 240, 240, 0.85) 100%);
+    color: #11161d;
+  }
+
+  &:hover {
+    color: $text-primary;
+    border-color: rgba($text-primary, 0.25);
+    transform: scale(1.02);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.menuButtonActive {
+  background: linear-gradient(135deg, #FF1E27 0%, #B30006 100%) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0px 4px 8px rgba(246, 247, 255, 0.22),
+    inset 0px 4px 16px rgba(246, 247, 255, 0.62);
+
+  &:hover {
+    box-shadow:
+      inset 0px 2px 4px rgba(246, 247, 255, 0.22),
+      inset 0px 2px 8px rgba(246, 247, 255, 0.62);
+  }
+}
+
+// Tooltips on menu icons (supports dynamic hover and active states using Union.png / Union_light.png)
+.tooltip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 138px;
+  height: 42px;
+  color: #ffffff;
+  font-family: $font-body;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-8px);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin-left: 12px;
+  z-index: 12;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("../../assets/Union.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  [data-theme="light"] & {
+    color: #11161d;
+
+    &::before {
+      background-image: url("../../assets/Union_light.png");
+    }
+  }
+}
+
+.tooltipRight {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 138px;
+  height: 42px;
+  color: #ffffff;
+  font-family: $font-body;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(8px);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin-right: 12px;
+  z-index: 12;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("../../assets/Union.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: scaleX(-1); // Flip horizontally for the right sidebar
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  [data-theme="light"] & {
+    color: #11161d;
+
+    &::before {
+      background-image: url("../../assets/Union_light.png");
+    }
+  }
+}
+
+// .tooltipActive {
+//   opacity: 1 !important;
+//   visibility: visible !important;
+//   transform: translateX(0) !important;
+//   position: relative;
+//   width: 138px;
+//   height: 42px;
+//   border-radius: 999px;
+
+//   background: #494949;
+
+//   &::before {
+//     content: "";
+//     position: absolute;
+//     inset: 0;
+//     padding: 2px;
+//     border-radius: inherit;
+
+//     background: linear-gradient(90deg,
+//         #5a3939 0%,
+//         #9f3d3d 20%,
+//         #ff0000 65%,
+//         #ff0000 100%);
+
+//     -webkit-mask:
+//       linear-gradient(#fff 0 0) content-box,
+//       linear-gradient(#fff 0 0);
+
+//     -webkit-mask-composite: xor;
+//     mask-composite: exclude;
+//   }
+// }
+
+
+.tooltipActive {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(0) !important;
+}
+
+
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes tooltipFadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Center Telemetry panel (Left stats column + Car Focus + Right stats column)
+.centerTelemetry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  gap: 1.5rem;
+  width: 100%;
+
+  @media (max-width: $breakpoint-desktop) {
+    flex-direction: column;
+    gap: 3rem;
+  }
+}
+
+.statsColumnLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 180px;
+  text-align: right;
+  align-items: flex-end;
+
+  @media (max-width: $breakpoint-desktop) {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+}
+
+.statsColumnRight {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 180px;
+  text-align: left;
+  align-items: flex-start;
+
+  @media (max-width: $breakpoint-desktop) {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.statValue {
+  font-family: "SF Pro", sans-serif;
+  font-weight: 800;
+  font-size: 30px;
+  color: $text-primary;
+  letter-spacing: 0em;
+  line-height: 1.0;
+  transition: color 0.3s ease;
+
+  @media (max-width: $breakpoint-desktop) {
+    font-size: 20px;
+  }
+}
+
+.suffix {
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: $text-secondary;
+  margin-left: 0.15rem;
+}
+
+.statLabel {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", sans-serif;
+
+  font-weight: 400;
+  font-size: 16px;
+  color: $text-muted;
+  transition: color 0.3s ease;
+}
+
+// Center circular graphics & image
+.centralCircleWrapper {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+
+  @media (max-width: $breakpoint-desktop) {
+    order: -1; // Keep car at the top when stacking
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    width: 260px;
+    height: 260px;
+  }
+}
+
+.carCircle {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid $border-color;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(0, 0, 0, 0.5);
+  z-index: 5;
+  background-color: #101010;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    border-color: rgba($accent-red, 0.5);
+    transform: scale(1.02);
+
+    .carImage {
+      transform: scale(1.05);
+    }
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+.carImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.6s ease;
+}
+
+// Pulsing sonar rings running behind stats
+.sonarRingOuter,
+.sonarRingMiddle,
+.sonarRingInner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px dashed $border-color;
+  pointer-events: none;
+  z-index: 1;
+  transition: border-color 0.3s ease;
+}
+
+.sonarRingInner {
+  width: 360px;
+  height: 360px;
+  opacity: 0.4;
+  animation: pulseRotate 25s linear infinite;
+
+  @media (max-width: $breakpoint-mobile) {
+    width: 290px;
+    height: 290px;
+  }
+}
+
+.sonarRingMiddle {
+  width: 480px;
+  height: 480px;
+  opacity: 0.22;
+  animation: pulseRotate 45s linear infinite reverse;
+
+  @media (max-width: $breakpoint-mobile) {
+    width: 370px;
+    height: 370px;
+  }
+}
+
+.sonarRingOuter {
+  width: 620px;
+  height: 620px;
+  opacity: 0.08;
+  animation: pulseRotate 65s linear infinite;
+
+  @media (max-width: $breakpoint-mobile) {
+    width: 460px;
+    height: 460px;
+  }
+}
+
+// Bottom Timeline
+.timelineSection {
+  width: 100%;
+  margin-top: -1rem;
+  display: flex;
+  justify-content: center;
+  padding: 0 2rem;
+
+  @media (max-width: $breakpoint-desktop) {
+    margin-top: 2rem;
+  }
+}
+
+.timelineTrackContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1720px;
+  height: 140px;
+}
+
+.waveSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  opacity: 0.85;
+}
+
+.timelineNodes {
+  position: absolute;
+  top: 37px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.timelineNode {
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  pointer-events: auto;
+  transform: translateX(-50%);
+  transition: all 0.3s ease;
+  user-select: none;
+
+  &:hover {
+    .nodeCircle {
+      border-color: $text-primary;
+      transform: scale(1.15);
+      box-shadow: 0 0 10px rgba($text-primary, 0.15);
+    }
+
+    .nodeTitle {
+      color: $text-primary;
+    }
+  }
+}
+
+.nodeCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: $bg-primary;
+  border: 2px solid $text-muted;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 6;
+  position: absolute;
+  left: calc(50% - 9px);
+}
+
+.nodeCore {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: $text-muted;
+  transition: all 0.3s ease;
+}
+
+.nodeLine {
+  position: absolute;
+  left: 50%;
+  width: 0;
+  border-left: 1px dashed rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+  transition: border-color 0.3s ease;
+
+  [data-theme="light"] & {
+    border-left-color: rgba(17, 22, 29, 0.25);
+  }
+}
+
+.nodeLabelGroup {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
+  gap: 0.1rem;
+}
+
+.nodeTitle {
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 0.72rem;
+  color: $text-muted;
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease;
+}
+
+.nodeSubtitle {
+  font-family: $font-body;
+  font-weight: 400;
+  font-size: 0.62rem;
+  color: $text-muted;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+
+  @media (max-width: $breakpoint-tablet) {
+    display: none; // Hide subtitles on mobile/tablet to save space
+  }
+}
+
+// Active Node state
+.nodeActive {
+  .nodeCircle {
+    border-color: $accent-red;
+    animation: activePulse 1.6s infinite ease-in-out;
+  }
+
+  .nodeCore {
+    background-color: $accent-red;
+    transform: scale(1.2);
+  }
+
+  .nodeTitle {
+    color: $text-primary;
+    font-weight: 800;
+  }
+
+  .nodeSubtitle {
+    color: $accent-red;
+    font-weight: 500;
+  }
+}
+
+// Animations
+@keyframes pulseRotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg) scale(1.015);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes activePulse {
+  0% {
+    box-shadow: 0 0 4px var(--accent-red-glow);
+    transform: scale(1.05);
+  }
+
+  50% {
+    box-shadow: 0 0 18px var(--accent-red);
+    transform: scale(1.25);
+  }
+
+  100% {
+    box-shadow: 0 0 4px var(--accent-red-glow);
+    transform: scale(1.05);
+  }
+}
